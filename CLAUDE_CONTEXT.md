@@ -67,7 +67,7 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 > "Set up the project scaffold for food-waste-analytics-chatbot based on CLAUDE_CONTEXT.md. Create the full folder structure, requirements.txt, .gitignore (covering data/, db/, .env), and an empty README.md. Then initialise git, connect to my GitHub remote, and make the first commit. Do not create any Python files yet."
 
 **What gets created:** folder structure, requirements.txt, .gitignore, README.md skeleton, initial commit
-**Status:** ⏳ Not started
+**Status:** ✅ Complete
 
 ---
 
@@ -77,7 +77,7 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 > "Build src/load_data.py based on the Data Model section of CLAUDE_CONTEXT.md. The full cleaned data files are in data/raw/ with the exact filenames listed in the data model. The sample data files are in data/sample/ with the same structure but fewer rows. The script should load whichever folder is specified by a config flag. Apply all ingestion transformations documented — unpivoting wide-format files, trimming PIK to 1966+, filtering FAO emissions elements and sources, renaming EDGAR columns, adding source_name columns, and dropping projection years. Create the SQLite database at db/food_waste.db."
 
 **What gets created:** src/load_data.py, db/food_waste.db (local only, gitignored)
-**Status:** ⏳ Not started
+**Status:** ✅ Complete
 
 ---
 
@@ -87,7 +87,7 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 > "Build src/tools.py based on the Tool Specifications section of CLAUDE_CONTEXT.md. Implement all 5 tool functions exactly as specified: query_food_loss, query_food_system_emissions, query_population_gdp, query_total_emissions_by_sector, and query_total_ghg_with_food_share. Each function should accept the parameters defined in the spec, build the appropriate SQL query dynamically, execute it against db/food_waste.db, and return results as a list of dicts. Include the limit parameter in all queries. Use the SQL mappings in section 7 of CLAUDE_CONTEXT.md as the basis for each query."
 
 **What gets created:** src/tools.py
-**Status:** ⏳ Not started
+**Status:** ✅ Complete
 
 ---
 
@@ -202,7 +202,7 @@ Star-schema pattern. Two join key paths:
 | country | string | Country name |
 | country_code | string | Join key to dim_region |
 | year | integer | Unpivoted from wide format. Range: 1960–2022. 2023 column dropped at ingestion |
-| gdp | integer | GDP per capita in USD |
+| gdp | integer | Total GDP in current USD (sourced from WDI — confirmed to be total GDP, not per capita) |
 
 ---
 
@@ -352,7 +352,8 @@ Star-schema pattern. Two join key paths:
 | `filters` | object | No | Optional: `region`, `income`, `year_from`, `year_to` |
 | `limit` | int | No | Default: 100 |
 
-**Returns:** `{group_by columns..., total_population, avg_gdp_per_capita}` | **Serves:** Q1.3 (contextual enrichment)
+**Returns:** `{group_by columns..., total_population, avg_total_gdp_usd, avg_gdp_per_capita}` | **Serves:** Q1.3 (contextual enrichment)
+Note: `avg_total_gdp_usd` = AVG(total GDP per country as stored in WDI). `avg_gdp_per_capita` = SUM(gdp) / SUM(population), derived at query time.
 
 ---
 
@@ -500,6 +501,9 @@ food-waste-analytics-chatbot/
 | 5 tools not 10 | Composable parameterised design serves all 10 questions without redundancy | 4 |
 | DATA_MODE env variable | Controls whether load_data.py uses full data (local dev) or sample data (demo/deployment) without code changes | 5 |
 | Commit → clear → next session rhythm | Preserves development continuity while managing token usage — code lives in GitHub, not in Claude's memory | 5 |
+| FAO emissions m49_code has Excel apostrophe prefix | Source file stores m49_code as text with leading apostrophe (e.g. '004). Stripped and cast to int in load_data.py to match dim_region join key | 5 |
+| WDI GDP data is total GDP not per capita | world_bank_gdp_data.csv contains total GDP in current USD, not per capita. query_population_gdp returns both avg_total_gdp_usd (as stored) and avg_gdp_per_capita (derived: SUM(gdp)/SUM(population)) | 5 |
+| query_total_ghg_with_food_share uses CTEs | PIK has 20 rows/country/year, EDGAR has 9. Direct join inflates SUM by 9×. CTEs pre-aggregate each source before joining | 5 |
 
 ---
 
@@ -529,4 +533,4 @@ food-waste-analytics-chatbot/
 
 ---
 
-*Last updated: Phase 4 complete. Phase 5 session plan ready. Implementation begins in Claude Code.*
+*Last updated: Phase 5 Sessions 1–3 complete. Sessions 4–6 remaining.*
