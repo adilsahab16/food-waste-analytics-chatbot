@@ -54,7 +54,7 @@
 | 2 | Data & Schema Design | ✅ Complete |
 | 3 | Question → SQL Mapping | ✅ Complete |
 | 4 | Tool / Function Design | ✅ Complete |
-| 5 | Agent Behavior & Streamlit UI | 🔄 In Progress |
+| 5 | Agent Behavior & Streamlit UI | ✅ Complete |
 | 6 | MCP Server | ⏳ Planned |
 
 ---
@@ -119,7 +119,7 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 > "Create a curated sample dataset in data/sample/ that mirrors the structure of data/raw/ but contains a representative subset — approximately 3–5 regions, 10–15 years, all 4 fact tables and all 4 dimension tables. The sample data should be enough for the chatbot to answer at least one question from each of the 4 analytical groups defined in CLAUDE_CONTEXT.md. Commit the sample data to the repo. Then update src/load_data.py so that a DATA_MODE environment variable controls whether it loads from data/raw/ (full) or data/sample/ (demo). Update the README with setup instructions, data source credits, and architecture overview."
 
 **What gets created:** data/sample/ files, updated load_data.py, updated README.md
-**Status:** ⏳ Not started
+**Status:** ✅ Complete
 
 ---
 
@@ -510,6 +510,10 @@ food-waste-analytics-chatbot/
 | Sidebar shows data mode + sources + About | Data mode indicator, FAO/WDI/PIK/EDGAR descriptions, and a short About blurb. Useful for portfolio visitors and demo context | 5 |
 | Claude responses rendered as markdown | Claude returns structured markdown (bold, bullets). Rendering it improves readability with no extra effort | 5 |
 | Spinner shown while agent runs | Agentic loop can take a few seconds. Spinner provides feedback so user knows the app is working | 5 |
+| Sample data: 4 regions, 2005–2022 | Europe, SSA, S&SE Asia, LA — covers high/low income spread and all 4 analytical groups. 2005+ keeps files small while preserving trend depth | 6 |
+| create_sample.py reads raw, writes same format | Output files mirror data/raw/ structure exactly so load_data.py works unchanged in both modes | 6 |
+| Full data never committed; screenshots show full results | Thesis data kept local. README screenshots taken from full-data local run to demonstrate analytical depth for portfolio/recruiters | 6 |
+| Deployment: DATA_MODE=sample set as Streamlit secret | Streamlit Community Cloud has no access to raw files. DATA_MODE=sample in secrets ensures app loads from committed data/sample/ | 6 |
 
 ---
 
@@ -539,4 +543,4 @@ food-waste-analytics-chatbot/
 
 ---
 
-*Last updated: Phase 5 Sessions 1–5 complete. Session 6 remaining.*
+*Last updated: Phase 5 all sessions complete. Phase 6 (MCP Server) planned.*
