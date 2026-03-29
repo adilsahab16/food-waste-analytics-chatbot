@@ -106,10 +106,10 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 ### Session 5 — Streamlit UI
 **Goal:** Build the chat interface wired to the agent loop.
 **Prompt to use:**
-> "Build src/app.py as a Streamlit chat interface wired to src/agent.py. The UI should show a chat window with message history, accept user input, pass the user message to the agent, and display Claude's response. Keep the UI clean and minimal — this is an analytics tool not a consumer app. Add a sidebar that shows which data mode is active (full data or sample data) and the data sources (FAO, WDI, PIK, EDGAR). Pass only the user's question to the agent — no UI state. Test that the app runs with streamlit run src/app.py."
+> "Build src/app.py as a Streamlit chat interface wired to src/agent.py. The UI should show a chat window with message history, accept user input, pass the user message to the agent, and display Claude's response. Keep the UI clean and minimal — this is an analytics tool not a consumer app. Add a sidebar that shows which data mode is active (full data or sample data) and the data sources (FAO, WDI, PIK, EDGAR) with brief descriptions, and a short About blurb for portfolio visitors. When the chat is empty, show 4 conversation starter cards in a 2×2 grid — one per analytical group (trends, loss breakdown, emissions share, emissions breakdown). Cards disappear once the conversation starts. Render Claude's responses as markdown. Show a spinner while the agent is running. Pass only the user's question to the agent — no UI state. Test that the app runs with streamlit run src/app.py."
 
 **What gets created:** src/app.py
-**Status:** ⏳ Not started
+**Status:** ✅ Complete
 
 ---
 
@@ -506,6 +506,10 @@ food-waste-analytics-chatbot/
 | FAO emissions m49_code has Excel apostrophe prefix | Source file stores m49_code as text with leading apostrophe (e.g. '004). Stripped and cast to int in load_data.py to match dim_region join key | 5 |
 | WDI GDP data is total GDP not per capita | world_bank_gdp_data.csv contains total GDP in current USD, not per capita. query_population_gdp returns both avg_total_gdp_usd (as stored) and avg_gdp_per_capita (derived: SUM(gdp)/SUM(population)) | 5 |
 | query_total_ghg_with_food_share uses CTEs | PIK has 20 rows/country/year, EDGAR has 9. Direct join inflates SUM by 9×. CTEs pre-aggregate each source before joining | 5 |
+| Streamlit chat UI with conversation starters | 4 clickable question cards in a 2×2 grid shown when chat is empty (one per analytical group). Cards disappear once conversation starts. Clean entry point for portfolio visitors | 5 |
+| Sidebar shows data mode + sources + About | Data mode indicator, FAO/WDI/PIK/EDGAR descriptions, and a short About blurb. Useful for portfolio visitors and demo context | 5 |
+| Claude responses rendered as markdown | Claude returns structured markdown (bold, bullets). Rendering it improves readability with no extra effort | 5 |
+| Spinner shown while agent runs | Agentic loop can take a few seconds. Spinner provides feedback so user knows the app is working | 5 |
 
 ---
 
@@ -535,4 +539,4 @@ food-waste-analytics-chatbot/
 
 ---
 
-*Last updated: Phase 5 Sessions 1–4 complete. Sessions 5–6 remaining.*
+*Last updated: Phase 5 Sessions 1–5 complete. Session 6 remaining.*
