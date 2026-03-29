@@ -33,6 +33,8 @@
 
 **Important:** At the start of each new task, re-read the relevant section of this file before writing any code. If any file already exists in the repo, read it before modifying it.
 
+**Context file maintenance:** Whenever a decision changes, a new decision is made, or any meaningful change happens during a session — ask the user: "Can I go ahead and update CLAUDE_CONTEXT.md and commit it to Git?" Do not update the context file or commit without explicit approval.
+
 ---
 
 ## 3. Goals
@@ -97,7 +99,7 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 > "Build src/agent.py based on CLAUDE_CONTEXT.md. Implement the agentic loop using the Anthropic Python SDK. The agent should: accept a user message, send it to Claude with all 5 tool definitions from src/tools.py, handle tool call responses by executing the relevant tool function, return the tool result to Claude, and loop until Claude returns a final text response. Use claude-sonnet-4-20250514 as the model. Claude should summarise tool results in plain language before returning to the user — never return raw rows. Include a system prompt that tells Claude it is a food waste analytics assistant with access to 5 tools, and that it should call tools when needed to answer questions and explain its reasoning briefly."
 
 **What gets created:** src/agent.py
-**Status:** ⏳ Not started
+**Status:** ✅ Complete
 
 ---
 
@@ -533,4 +535,4 @@ food-waste-analytics-chatbot/
 
 ---
 
-*Last updated: Phase 5 Sessions 1–3 complete. Sessions 4–6 remaining.*
+*Last updated: Phase 5 Sessions 1–4 complete. Sessions 5–6 remaining.*
