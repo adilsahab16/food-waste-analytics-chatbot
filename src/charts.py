@@ -26,13 +26,18 @@ TOOL_METRIC_SPECS: dict[str, list[tuple[str, str]]] = {
 }
 
 
-def render_charts(tool_calls: list[dict]) -> None:
-    """Render a chart for each tool call that returned more than one row."""
-    for call in tool_calls:
-        _render_one(call)
+def render_charts(tool_calls: list[dict], key_prefix: str = "") -> None:
+    """Render a chart for each tool call that returned more than one row.
+
+    key_prefix must be unique per render_charts call on the page to avoid
+    Streamlit duplicate element ID errors when the same chart data appears
+    in multiple messages in the conversation history.
+    """
+    for i, call in enumerate(tool_calls):
+        _render_one(call, key=f"{key_prefix}_{i}")
 
 
-def _render_one(call: dict) -> None:
+def _render_one(call: dict, key: str = "") -> None:
     tool_name = call["tool_name"]
     inputs = call["inputs"]
     result = call["result"]
@@ -88,4 +93,4 @@ def _render_one(call: dict) -> None:
             )
 
         fig.update_layout(legend_title_text="")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, key=f"chart_{key}_{metric_col}")

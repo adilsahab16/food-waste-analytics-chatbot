@@ -96,11 +96,11 @@ if not st.session_state.messages:
             st.rerun()
 
 # Render message history
-for msg in st.session_state.messages:
+for msg_idx, msg in enumerate(st.session_state.messages):
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
         if msg.get("chart_data"):
-            render_charts(msg["chart_data"])
+            render_charts(msg["chart_data"], key_prefix=f"msg_{msg_idx}")
 
 # ── Chat input ────────────────────────────────────────────────────────────────
 
@@ -117,7 +117,7 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "user"
             response, tool_calls = run_agent(user_question)
         st.markdown(response)
         if tool_calls:
-            render_charts(tool_calls)
+            render_charts(tool_calls, key_prefix="live")
     st.session_state.messages.append({
         "role": "assistant",
         "content": response,
