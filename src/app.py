@@ -11,6 +11,15 @@ from src.agent import run_agent
 
 load_dotenv()
 
+# ── Database bootstrap ────────────────────────────────────────────────────────
+# On Streamlit Cloud, db/ is gitignored and never committed.
+# Build the database from sample data on first run if it doesn't exist.
+
+_DB_PATH = Path(__file__).resolve().parent.parent / 'db' / 'food_waste.db'
+if not _DB_PATH.exists():
+    from src.load_data import main as _build_db
+    _build_db()
+
 # ── Page config ──────────────────────────────────────────────────────────────
 
 st.set_page_config(
