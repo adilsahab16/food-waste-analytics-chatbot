@@ -29,11 +29,19 @@ TOOL_METRIC_SPECS: dict[str, list[tuple[str, str]]] = {
 def render_charts(tool_calls: list[dict], key_prefix: str = "") -> None:
     """Render a chart for each tool call that returned more than one row.
 
+    Deduplicates by tool name — if the same tool was called multiple times
+    (common in agentic loops), only the last call is rendered.
+
     key_prefix must be unique per render_charts call on the page to avoid
     Streamlit duplicate element ID errors when the same chart data appears
     in multiple messages in the conversation history.
     """
+    # Keep last call per tool name to avoid duplicate charts
+    deduped: dict[str, tuple[int, dict]] = {}
     for i, call in enumerate(tool_calls):
+        deduped[call["tool_name"]] = (i, call)
+
+    for i, call in deduped.values():
         _render_one(call, key=f"{key_prefix}_{i}")
 
 
