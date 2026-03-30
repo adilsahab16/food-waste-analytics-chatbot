@@ -29,7 +29,11 @@ Tool selection guide:
 - Total economy-wide emissions by sector → query_total_emissions_by_sector
 - Total GHG + food system share together → query_total_ghg_with_food_share
 
-Always answer in plain language. Mention the data source(s) used."""
+Always answer in plain language. Mention the data source(s) used.
+
+When the user asks for a chart, plot, or graph: confirm you will show one, call the
+relevant tool as normal, and summarise the data. The UI renders the chart automatically
+from your tool results — you do not need to produce the visualisation yourself."""
 
 # Tool definitions passed to the Anthropic API
 TOOL_DEFINITIONS = [
