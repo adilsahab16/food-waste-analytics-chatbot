@@ -10,6 +10,12 @@ from dotenv import load_dotenv
 from src.agent import run_agent
 from src.charts import render_charts
 
+_CHART_KEYWORDS = {"chart", "plot", "graph", "visualize", "visualise"}
+
+def _wants_chart(question: str) -> bool:
+    q = question.lower()
+    return any(word in q for word in _CHART_KEYWORDS)
+
 load_dotenv()
 
 # ── Database bootstrap ────────────────────────────────────────────────────────
@@ -116,10 +122,9 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "user"
         with st.spinner("Thinking..."):
             response, tool_calls = run_agent(user_question)
         st.markdown(response)
-        if tool_calls:
-            render_charts(tool_calls, key_prefix="live")
     st.session_state.messages.append({
         "role": "assistant",
         "content": response,
-        "chart_data": tool_calls,
+        "chart_data": tool_calls if _wants_chart(user_question) else [],
     })
+    st.rerun()
