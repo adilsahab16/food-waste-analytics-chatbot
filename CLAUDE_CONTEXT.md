@@ -13,7 +13,7 @@
 | **Project Name** | World Food Waste Analytics Chatbot |
 | **Type** | Learning & Portfolio Project |
 | **Owner** | Data Engineer |
-| **Purpose** | Learn Claude/Anthropic API, build a portfolio piece, gain MCP server experience applicable to workplace |
+| **Purpose** | Learn Claude/Anthropic API, build a portfolio piece, gain MCP server experience |
 | **Stack** | Python · SQLite · Streamlit · Anthropic Python SDK |
 | **Dev Environment** | VS Code + Claude Code Extension |
 | **Repo Name** | food-waste-analytics-chatbot |
@@ -27,7 +27,6 @@
 - Data engineer — strong in SQL, data modeling, pipelines
 - New to: chatbot development, Anthropic API, agentic systems, MCP servers
 - First time using Claude Code (previously used GitHub Copilot + VS Code)
-- A similar MCP-based architecture is required at full-time workplace — this project is a learning dry run for that
 
 **Working style:** Phase-gated. Do not jump ahead. Do not generate code unless explicitly instructed. Ask questions rather than assume. When introducing agent/API concepts new to a data engineer, explain briefly before proceeding.
 
@@ -42,7 +41,7 @@
 1. Learn how Claude and the Anthropic API work — especially tool calling and the agentic loop
 2. Build a working analytics chatbot answering natural language questions over structured food waste data
 3. Produce a portfolio-ready project: clean architecture, documented decisions, clear README
-4. Build and understand an MCP server (Phase 6) — directly applicable to workplace use case
+4. Build and understand an MCP server (Phase 6)
 
 ---
 
