@@ -93,4 +93,4 @@ def _render_one(call: dict, key: str = "") -> None:
             )
 
         fig.update_layout(legend_title_text="")
-        st.plotly_chart(fig, use_container_width=True, key=f"chart_{key}_{metric_col}")
+        st.plotly_chart(fig, key=f"chart_{key}_{metric_col}")
