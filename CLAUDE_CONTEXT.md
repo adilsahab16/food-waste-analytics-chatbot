@@ -122,7 +122,43 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 
 ---
 
-## 6. Analytical Questions (Phase 1 Output)
+## 6. Phase 6 — MCP Server Session Plan
+
+Expose the same 5 tools over the MCP (Model Context Protocol) so any MCP-compatible client — including Claude Desktop and VS Code extensions — can query the food waste database without the Streamlit UI.
+
+Work through Phase 6 in the following sessions, in order. Complete, test, and commit each session before starting the next. Recommend user to `/clear` after committing for token efficiency.
+
+### Session 1 — MCP Server Scaffold
+**Goal:** Build the MCP server that exposes all 5 tools over the MCP protocol.
+**Prompt to use:**
+> "Build mcp/server.py based on CLAUDE_CONTEXT.md. Implement an MCP server using FastMCP that exposes all 5 tools from src/tools.py over the MCP protocol. The server should register each tool with the same name, description, and parameter schema as defined in the Tool Specifications section. Each tool should call the matching Python function from src/tools.py and return the result. Do not change src/tools.py."
+
+**What gets created:** `mcp/server.py`
+**Status:** ⏳ Planned
+
+---
+
+### Session 2 — MCP Client Test
+**Goal:** Verify all 5 tools are callable end-to-end from an MCP-compatible client.
+**Prompt to use:**
+> "Help me test mcp/server.py end-to-end. Run the MCP server locally and verify that each of the 5 tools can be called and returns results. Confirm the server works with Claude Desktop or VS Code MCP client configuration."
+
+**What gets created:** test confirmation, MCP client config (if needed)
+**Status:** ⏳ Planned
+
+---
+
+### Session 3 — README Update & Final Commit
+**Goal:** Document the MCP server setup and make the final project commit.
+**Prompt to use:**
+> "Update README.md with MCP server setup instructions — how to run mcp/server.py locally and how to connect it to a compatible MCP client. Add a project structure entry for mcp/server.py. Make a final commit marking the project complete."
+
+**What gets created:** Updated README.md, final commit
+**Status:** ⏳ Planned
+
+---
+
+## 7. Analytical Questions (Phase 1 Output)
 
 ### Group 1 — Yearly Trends: High Income vs Low Income Regions
 - **Q1.1** Yearly trend in food loss/waste percentage — high income vs low income regions
@@ -144,7 +180,7 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 
 ---
 
-## 7. Data Model (Phase 2 Output)
+## 8. Data Model (Phase 2 Output)
 
 ### Overview
 
@@ -293,7 +329,7 @@ Star-schema pattern. Two join key paths:
 
 ---
 
-## 8. Question → SQL Mapping (Phase 3 Output)
+## 9. Question → SQL Mapping (Phase 3 Output)
 
 | ID | Tables | Join Key | Group By | Measure | Key Filters |
 |---|---|---|---|---|---|
@@ -310,7 +346,7 @@ Star-schema pattern. Two join key paths:
 
 ---
 
-## 9. Tool Specifications (Phase 4 Output)
+## 10. Tool Specifications (Phase 4 Output)
 
 5 tools total. All tools include `limit` (default: 100). `group_by` is a dynamic list — Claude selects dimensions from the constrained valid set based on the user's question.
 
@@ -384,7 +420,7 @@ Note: `avg_total_gdp_usd` = AVG(total GDP per country as stored in WDI). `avg_gd
 
 ---
 
-## 10. Token Efficiency & Session Management
+## 11. Token Efficiency & Session Management
 
 **The recommended development rhythm:**
 1. Attach CLAUDE_CONTEXT.md at the start of the session
@@ -413,7 +449,7 @@ Note: `avg_total_gdp_usd` = AVG(total GDP per country as stored in WDI). `avg_gd
 
 ---
 
-## 11. Architecture
+## 12. Architecture
 
 ### Post Phase 5 (Pre-MCP)
 ```
@@ -444,7 +480,7 @@ Claude ──► MCP Server (mcp/server.py) ──► same 5 tools over MCP prot
 
 ---
 
-## 12. Repository Structure
+## 13. Repository Structure
 
 ```
 food-waste-analytics-chatbot/
@@ -462,16 +498,18 @@ food-waste-analytics-chatbot/
 │   │                            DATA_MODE env var controls raw vs sample
 │   ├── tools.py              ← 5 tool function definitions
 │   ├── agent.py              ← Agentic loop: Claude + tool calling
-│   └── app.py                ← Streamlit chat UI
+│   ├── app.py                ← Streamlit chat UI
+│   └── create_sample.py      ← One-time script: slices data/raw/ → data/sample/
 ├── mcp/
 │   └── server.py             ← MCP server (Phase 6)
 └── docs/
-    └── decisions.md          ← Running log of design decisions
+    ├── decisions.md          ← Running log of design decisions
+    └── PRD_v0.5.pdf          ← Product Requirements Document (v0.5)
 ```
 
 ---
 
-## 13. Design Decisions Log
+## 14. Design Decisions Log
 
 | Decision | Rationale | Phase |
 |---|---|---|
@@ -516,7 +554,7 @@ food-waste-analytics-chatbot/
 
 ---
 
-## 14. Glossary
+## 15. Glossary
 
 | Term | Definition |
 |---|---|
@@ -542,4 +580,4 @@ food-waste-analytics-chatbot/
 
 ---
 
-*Last updated: Phase 5 all sessions complete. Phase 6 (MCP Server) planned.*
+*Last updated: Phase 5 all sessions complete. Phase 6 (MCP Server) session plan added — ready to start.*
