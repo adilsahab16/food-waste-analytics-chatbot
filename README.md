@@ -118,9 +118,6 @@ CTEs to pre-aggregate each source by country/year before joining.
 codes. The star schema is built around both, with `dim_region` as the bridge table carrying
 both keys. Every tool join is explicit about which path it uses.
 
-**KYOTOGHG excluded from PIK at ingestion** — it's an aggregate metric that would
-double-count individual gases. Excluded once at load time rather than filtered in every query.
-
 **CO2eq IPCC AR5 as the standard unit** — consistent with thesis methodology and FAO
 reporting. Applied as an `element_filter` default so Claude always works in comparable units
 unless explicitly asked for gas-level breakdown.
@@ -175,7 +172,8 @@ food-waste-analytics-chatbot/
 │   └── sample/             ← Curated demo subset (committed — powers live demo)
 ├── db/                     ← SQLite database (gitignored — generated locally)
 ├── docs/
-│   └── decisions.md        ← Running log of design decisions
+│   ├── decisions.md        ← Running log of design decisions
+│   └── PRD_v0.5.pdf        ← Product Requirements Document (v0.5)
 └── requirements.txt
 ```
 
@@ -246,8 +244,7 @@ to power the live demo.
 
 Implementing an MCP (Model Context Protocol) server that exposes the same 5 tools over the
 MCP protocol. This allows any MCP-compatible client — including Claude Desktop and VS Code
-extensions — to query the food waste database directly, without the Streamlit UI. MCP server
-architecture is also directly applicable to a workplace integration I am building.
+extensions — to query the food waste database directly, without the Streamlit UI.
 
 ---
 
