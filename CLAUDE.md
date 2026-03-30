@@ -9,7 +9,7 @@
 - Ask questions rather than assume.
 - When introducing concepts that are new (agent loops, MCP, API patterns), explain briefly before proceeding.
 - Read existing files before modifying them.
-- Never commit to Git without explicit approval. After making any meaningful change, always ask: "Can I go ahead and commit this to Git?"
+- Never commit or push to Git without explicit approval. After making any meaningful change, always ask: "Can I go ahead and commit and push this to Git?"
 - Never update CLAUDE_CONTEXT.md without explicit approval.
 
 ## Session Rhythm
