@@ -3,7 +3,7 @@
 A natural language analytics chatbot for exploring global food loss and GHG emissions data.
 Ask questions in plain English — the app queries a structured SQLite database built from four
 public datasets (FAO, World Bank, PIK, EDGAR), returns clear, data-driven answers powered by
-Claude via the Anthropic API, and renders interactive Plotly charts for every response.
+Claude via the Anthropic API, and renders interactive Plotly charts.
 
 **[Live Demo](https://adilsahab16-food-waste-analytics-chatbot.streamlit.app)** · Python · SQLite · Streamlit · Anthropic API
 
