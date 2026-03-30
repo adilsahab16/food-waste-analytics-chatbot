@@ -564,7 +564,7 @@ food-waste-analytics-chatbot/
 | create_sample.py reads raw, writes same format | Output files mirror data/raw/ structure exactly so load_data.py works unchanged in both modes | 6 |
 | Full data never committed; screenshots show full results | Thesis data kept local. README screenshots taken from full-data local run to demonstrate analytical depth for portfolio/recruiters | 6 |
 | Deployment: DATA_MODE=sample set as Streamlit secret | Streamlit Community Cloud has no access to raw files. DATA_MODE=sample in secrets ensures app loads from committed data/sample/ | 6 |
-| Plotly charts rendered after every tool-calling response | Adds analytical value without requiring Claude to reason about visualisation. Chart type (line vs bar) is derived from group_by: year → line, otherwise → bar. Single-row results skipped. | 5 |
+| Plotly charts rendered when called in response | Adds analytical value without requiring Claude to reason about visualisation. Chart type (line vs bar) is derived from group_by: year → line, otherwise → bar. Single-row results skipped. | 5 |
 | Charts stored in session state on assistant messages | chart_data saved alongside content in session state so charts replay correctly when scrolling through conversation history | 5 |
 | run_agent() returns (text, tool_calls) tuple | UI needs raw tool results to render charts. Returning both from agent keeps concerns separated — agent handles Claude loop, charts module handles rendering | 5 |
 | query_population_gdp renders two charts (population + GDP per capita) | Two distinct measures on different scales — combining on one axis would be misleading | 5 |
