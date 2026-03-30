@@ -1,4 +1,10 @@
 import os
+import sys
+from pathlib import Path
+
+# Ensure repo root is on the path so 'src' is importable on Streamlit Cloud
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import streamlit as st
 from dotenv import load_dotenv
 from src.agent import run_agent
