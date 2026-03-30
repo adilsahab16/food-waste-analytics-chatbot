@@ -122,6 +122,18 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 
 ---
 
+### Session 7 — Plotly Charts
+**Goal:** Render an interactive chart after every agent response that called a tool.
+**What was built:**
+- `src/charts.py` — chart rendering module. `render_charts(tool_calls)` loops over collected tool call results. Chart type is determined by `group_by`: line chart when `year` is a dimension, grouped bar chart otherwise. One chart per metric column (tools with multiple metrics produce multiple charts). Single-row results are skipped.
+- `src/agent.py` — `run_agent()` signature changed from `-> str` to `-> tuple[str, list[dict]]`. Tool results are now collected into a `tool_calls` list during the loop and returned alongside the text response.
+- `src/app.py` — unpacks the tuple from `run_agent`, calls `render_charts` immediately after the text response. `chart_data` is stored on each assistant message in session state so charts re-render correctly when scrolling through history.
+- `requirements.txt` — added `plotly`
+
+**Status:** ✅ Complete
+
+---
+
 ## 6. Phase 6 — MCP Server Session Plan
 
 Expose the same 5 tools over the MCP (Model Context Protocol) so any MCP-compatible client — including Claude Desktop and VS Code extensions — can query the food waste database without the Streamlit UI.
@@ -497,8 +509,9 @@ food-waste-analytics-chatbot/
 │   ├── load_data.py          ← Reads files, applies transformations, loads SQLite
 │   │                            DATA_MODE env var controls raw vs sample
 │   ├── tools.py              ← 5 tool function definitions
-│   ├── agent.py              ← Agentic loop: Claude + tool calling
+│   ├── agent.py              ← Agentic loop: Claude + tool calling. Returns (text, tool_calls)
 │   ├── app.py                ← Streamlit chat UI
+│   ├── charts.py             ← Plotly chart rendering from tool call results
 │   └── create_sample.py      ← One-time script: slices data/raw/ → data/sample/
 ├── mcp/
 │   └── server.py             ← MCP server (Phase 6)
@@ -551,6 +564,11 @@ food-waste-analytics-chatbot/
 | create_sample.py reads raw, writes same format | Output files mirror data/raw/ structure exactly so load_data.py works unchanged in both modes | 6 |
 | Full data never committed; screenshots show full results | Thesis data kept local. README screenshots taken from full-data local run to demonstrate analytical depth for portfolio/recruiters | 6 |
 | Deployment: DATA_MODE=sample set as Streamlit secret | Streamlit Community Cloud has no access to raw files. DATA_MODE=sample in secrets ensures app loads from committed data/sample/ | 6 |
+| Plotly charts rendered after every tool-calling response | Adds analytical value without requiring Claude to reason about visualisation. Chart type (line vs bar) is derived from group_by: year → line, otherwise → bar. Single-row results skipped. | 5 |
+| Charts stored in session state on assistant messages | chart_data saved alongside content in session state so charts replay correctly when scrolling through conversation history | 5 |
+| run_agent() returns (text, tool_calls) tuple | UI needs raw tool results to render charts. Returning both from agent keeps concerns separated — agent handles Claude loop, charts module handles rendering | 5 |
+| query_population_gdp renders two charts (population + GDP per capita) | Two distinct measures on different scales — combining on one axis would be misleading | 5 |
+| query_total_ghg_with_food_share renders two charts (total emissions + food share %) | Same reason — kt and percentage are incompatible axes | 5 |
 
 ---
 
@@ -580,4 +598,4 @@ food-waste-analytics-chatbot/
 
 ---
 
-*Last updated: Phase 5 all sessions complete. Phase 6 (MCP Server) session plan added — ready to start.*
+*Last updated: Phase 5 complete including Session 7 (Plotly charts). Phase 6 (MCP Server) session plan added — ready to start.*

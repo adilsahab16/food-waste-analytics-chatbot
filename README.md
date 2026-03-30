@@ -2,8 +2,8 @@
 
 A natural language analytics chatbot for exploring global food loss and GHG emissions data.
 Ask questions in plain English — the app queries a structured SQLite database built from four
-public datasets (FAO, World Bank, PIK, EDGAR) and returns clear, data-driven answers powered
-by Claude via the Anthropic API.
+public datasets (FAO, World Bank, PIK, EDGAR), returns clear, data-driven answers powered by
+Claude via the Anthropic API, and renders interactive Plotly charts for every response.
 
 **[Live Demo](https://adilsahab16-food-waste-analytics-chatbot.streamlit.app)** · Python · SQLite · Streamlit · Anthropic API
 
@@ -97,6 +97,7 @@ Claude decides: call tool OR answer directly
 4. Tool executes parameterised SQL against SQLite, returns rows as JSON
 5. Claude summarises results in plain language — raw rows never reach the user
 6. Loop repeats if Claude needs more data; ends when Claude has a complete answer
+7. The UI renders an interactive Plotly chart from the tool results — line chart for time-series questions, grouped bar for categorical comparisons
 
 ---
 
@@ -154,6 +155,7 @@ local only) or `data/sample/` (curated regional subset, committed to repo for th
 | Database | SQLite |
 | UI | Streamlit |
 | Data processing | pandas |
+| Charts | Plotly |
 | Dev environment | VS Code + Claude Code |
 
 ---
@@ -167,6 +169,7 @@ food-waste-analytics-chatbot/
 │   ├── tools.py            ← 5 parameterised query functions (SQL)
 │   ├── agent.py            ← Agentic loop: Claude + tool calling via Anthropic SDK
 │   ├── app.py              ← Streamlit chat UI
+│   ├── charts.py           ← Plotly chart rendering from tool call results
 │   └── create_sample.py    ← One-time script to generate data/sample/ from data/raw/
 ├── data/
 │   └── sample/             ← Curated demo subset (committed — powers live demo)

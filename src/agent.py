@@ -201,14 +201,7 @@ TOOL_FUNCTIONS = {
 }
 
 
-def _execute_tool(name: str, inputs: dict) -> str:
-    """Execute a tool by name and return its result as a JSON string."""
-    fn = TOOL_FUNCTIONS[name]
-    result = fn(**inputs)
-    return json.dumps(result)
-
-
-def run_agent(user_message: str) -> str:
+def run_agent(user_message: str) -> tuple[str, list[dict]]:
     """
     Run the agentic loop for a single user message.
 
@@ -216,11 +209,15 @@ def run_agent(user_message: str) -> str:
     Loops: if Claude returns tool_use blocks, executes each tool and feeds
     results back. Continues until Claude returns a final text response.
 
-    Returns Claude's final plain-language answer as a string.
+    Returns:
+        (text, tool_calls) where tool_calls is a list of dicts:
+        [{"tool_name": str, "inputs": dict, "result": list[dict]}, ...]
+        Collected across all iterations — used by the UI to render charts.
     """
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 
     messages = [{"role": "user", "content": user_message}]
+    tool_calls: list[dict] = []
 
     while True:
         response = client.messages.create(
@@ -234,23 +231,29 @@ def run_agent(user_message: str) -> str:
         # Append Claude's response to the message history
         messages.append({"role": "assistant", "content": response.content})
 
-        # If Claude is done (no tool calls), return the text response
+        # If Claude is done (no tool calls), return text + collected tool data
         if response.stop_reason == "end_turn":
             for block in response.content:
                 if hasattr(block, "text"):
-                    return block.text
-            return ""
+                    return block.text, tool_calls
+            return "", tool_calls
 
         # If Claude wants to call tools, execute each one and collect results
         if response.stop_reason == "tool_use":
             tool_results = []
             for block in response.content:
                 if block.type == "tool_use":
-                    result_content = _execute_tool(block.name, block.input)
+                    fn = TOOL_FUNCTIONS[block.name]
+                    result_data = fn(**block.input)
+                    tool_calls.append({
+                        "tool_name": block.name,
+                        "inputs": block.input,
+                        "result": result_data,
+                    })
                     tool_results.append({
                         "type": "tool_result",
                         "tool_use_id": block.id,
-                        "content": result_content,
+                        "content": json.dumps(result_data),
                     })
 
             # Feed all tool results back to Claude in a single user turn
@@ -262,5 +265,5 @@ def run_agent(user_message: str) -> str:
             # Unexpected stop reason — return whatever text is available
             for block in response.content:
                 if hasattr(block, "text"):
-                    return block.text
-            return f"Unexpected stop reason: {response.stop_reason}"
+                    return block.text, tool_calls
+            return f"Unexpected stop reason: {response.stop_reason}", tool_calls

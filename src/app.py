@@ -8,6 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import streamlit as st
 from dotenv import load_dotenv
 from src.agent import run_agent
+from src.charts import render_charts
 
 load_dotenv()
 
@@ -82,7 +83,7 @@ STARTER_QUESTIONS = [
     "How has food loss changed over time in high vs low income regions?",
     "Which supply chain stage has the highest food loss by region?",
     "What share of total GHG emissions comes from the food system, by region?",
-    "Compare crop vs livestock emissions across regions.",
+    "Chart total GHG emissions broken down by sector across regions.",
 ]
 
 if not st.session_state.messages:
@@ -98,6 +99,8 @@ if not st.session_state.messages:
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
+        if msg.get("chart_data"):
+            render_charts(msg["chart_data"])
 
 # ── Chat input ────────────────────────────────────────────────────────────────
 
@@ -111,6 +114,12 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "user"
     user_question = st.session_state.messages[-1]["content"]
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            response = run_agent(user_question)
+            response, tool_calls = run_agent(user_question)
         st.markdown(response)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        if tool_calls:
+            render_charts(tool_calls)
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": response,
+        "chart_data": tool_calls,
+    })
