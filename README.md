@@ -37,7 +37,7 @@ code, decisions documented as they're made, and no phase started until the previ
 committed and tested.
 
 **The process:**
-1. Wrote a full PRD covering analytical questions, data model, tool specifications, and success criteria
+1. Wrote a full **[PRD](https://github.com/adilsahab16/food-waste-analytics-chatbot/blob/main/docs/PRD_v0.5.pdf)**  covering analytical questions, data model, tool specifications, and success criteria
 2. Converted the PRD into a living `CLAUDE_CONTEXT.md` — a session-by-session guide for Claude Code with explicit working rules (phase-gated, ask before assuming, never generate code without instruction)
 3. Built in 6 discrete sessions: scaffold → data loading → tool functions → agentic loop → UI → sample data & deployment
 4. Each session ended with a test, a commit, and a `/clear` — code lives in GitHub, not in the AI's memory
