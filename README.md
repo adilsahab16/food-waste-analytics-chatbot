@@ -97,7 +97,7 @@ Claude decides: call tool OR answer directly
 4. Tool executes parameterised SQL against SQLite, returns rows as JSON
 5. Claude summarises results in plain language — raw rows never reach the user
 6. Loop repeats if Claude needs more data; ends when Claude has a complete answer
-7. The UI renders an interactive Plotly chart from the tool results — line chart for time-series questions, grouped bar for categorical comparisons
+7. The UI renders an interactive Plotly chart from the tool results — line chart for time-series questions, grouped bar for categorical comparisons. A chart is shown for every response that queried data.
 
 ---
 

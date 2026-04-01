@@ -127,7 +127,7 @@ Work through Phase 5 in the following sessions, in order. Complete, test, and co
 **What was built:**
 - `src/charts.py` — chart rendering module. `render_charts(tool_calls)` loops over collected tool call results. Chart type is determined by `group_by`: line chart when `year` is a dimension, grouped bar chart otherwise. One chart per metric column (tools with multiple metrics produce multiple charts). Single-row results are skipped.
 - `src/agent.py` — `run_agent()` signature changed from `-> str` to `-> tuple[str, list[dict]]`. Tool results are now collected into a `tool_calls` list during the loop and returned alongside the text response.
-- `src/app.py` — unpacks the tuple from `run_agent`, calls `render_charts` immediately after the text response. `chart_data` is stored on each assistant message in session state so charts re-render correctly when scrolling through history.
+- `src/app.py` — unpacks the tuple from `run_agent`, calls `render_charts` immediately after the text response. `chart_data` is stored on each assistant message in session state so charts re-render correctly when scrolling through history. Charts render on every response that called a tool.
 - `requirements.txt` — added `plotly`
 
 **Status:** ✅ Complete
