@@ -13,7 +13,13 @@ Claude via the Anthropic API, and renders interactive Plotly charts.
 
 > *Screenshots taken from the full dataset (local). The live demo runs on a curated regional sample.*
 
-<!-- Add 2–3 screenshots here -->
+![prompt_1_1](images/prompt_1_1.png)
+![prompt_1_2](images/prompt_1_2.png)
+
+![prompt_2_1](images/prompt_2_1.png)
+![prompt_2_2](images/prompt_2_2.png)
+
+![prompt_3](images/prompt_3.png)
 
 ---
 
